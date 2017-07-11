@@ -2,7 +2,7 @@
 
 #### The base class for all mathematical Seqins.
 
-It’s not usually used directly - it just generates basic sine waves.
+It’s not usually used directly - it just generates silent buffers.
 
 
 Authors
@@ -19,7 +19,7 @@ Built by Rich Plastow and Monty Anderson for Loop.Coop.
 App
 ---
 + __Last update:__  2017/07/11
-+ __Version:__      0.0.2
++ __Version:__      0.0.3
 
 
 Tested
@@ -35,3 +35,4 @@ Changelog
 ---------
 + 0.0.1       Initial commit on master branch; isomorphic mocha/chai working
 + 0.0.2       constructor() and getBuffers() complete; initial support/usage.js
++ 0.0.3       getBuffers() generates silent buffers; removed support/usage.js

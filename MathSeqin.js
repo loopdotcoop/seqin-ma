@@ -3,11 +3,11 @@
 const META = {
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.2'     }
+  , VERSION: { value:'0.0.3'     }
   , SPEC:    { value:'20170705'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It’s not usually used directly -
-it just generates basic sine waves.` }
+it just generates silent buffers.` }
 }
 
 //// Make available on the window (browser) or global (Node.js)
@@ -28,29 +28,12 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
         //// Validate config and get empty buffers.
         const buffers = super.getBuffers(config)
 
-        //// MathSeqin notes are built from a single waveform. Its ID is:
-        const waveformId =
-            'w-'  // denotes a waveform
-          + 'ma-' // universally unique ID for MathSeqin
-          + 'l' // universally unique ID for MathSeqin
-
-        //// Check the cache for the requested waveform.
-        let waveform = this.sharedCache['ma-']
-
-        //// The MathSeqin class generates a basic sine wave.
-        const f = Math.PI * 2 * config.cyclesPerBuffer / this.samplesPerBuffer
+        //// The MathSeqin class just keeps the base Seqin class’s silence.
         buffers.map( buffer => {
             buffer.id = 'ma'
-            for (let channel=0; channel<this.channelCount; channel++) {
-                const channelBuffer = buffer.data.getChannelData(channel)
-                for (let i=0; i<this.samplesPerBuffer; i++) {
-                    channelBuffer[i] = Math.sin(i * f)
-                }
-            }
         })
 
         return buffers
-
     }
 
 }
