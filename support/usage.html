@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+
+<!-- Technical meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Search engine meta -->
+<title>MathSeqin</title>
+<meta name="description" content="MathSeqin usage examples">
+<link rel="author" href="../README.md">
+
+<!-- Seqin -->
+<script src="https://rawgit.com/loopdotcoop/seqin/master/Seqin.js"></script>
+<script src="../MathSeqin.js"></script>
+<script src="usage.js"></script>
+
+<style type="text/css">
+body {
+    margin: 8px;
+    font-family: Arial, sans-serif;
+    background: #ccc;
+    color: #333
+}
+#usage canvas {
+    display: block;
+    width: 900px;
+    height: 100px;
+    background: #fff;
+}
+#usage button {
+    opacity: 0.8;
+    cursor: pointer;
+}
+#usage button:hover {
+    opacity: 1;
+}
+</style>
+
+</head>
+<body>
+
+<h1><a href="../index.html">MathSeqin 0.0.2 Usage</a></h1>
+
+<div id="usage"></div>
+
+<script>
+usage.init()
+usage.addButton({
+    text: '<h1>10</h1>'
+  , cyclesPerBuffer: 10
+  , velocity: 1
+  , red: 255
+})
+usage.addButton({
+    text: '<h1>20</h1>'
+  , cyclesPerBuffer: 20
+  , velocity: 0.5
+  , green: 128
+})
+</script>
+
+</body>
+</html>

@@ -1,13 +1,13 @@
 {
   "name": "seqin-ma",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The base class for all mathematical Seqins",
   "main": "MathSeqin.js",
   "directories": {
     "example": "support"
   },
   "dependencies": {
-    "seqin-si": "latest"
+    "seqin-si": "0.0.6"
   },
   "devDependencies": {
     "chai": "^4.0.2",
@@ -20,7 +20,15 @@
     "type": "git",
     "url": "git+https://github.com/loopdotcoop/seqin-ma.git"
   },
-  "keywords": ["seqin", "web audio", "mathematical", "math", "maths"],
+  "keywords": [
+    "seqin",
+    "sequencer",
+    "instrument",
+    "web audio",
+    "mathematical",
+    "math",
+    "maths"
+  ],
   "author": "Rich Plastow<rich@loop.coop>, Monty Anderson",
   "license": "MIT",
   "bugs": {
