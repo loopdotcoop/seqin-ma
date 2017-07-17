@@ -3,7 +3,7 @@
 const META = {
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.3'     }
+  , VERSION: { value:'0.0.4'     }
   , SPEC:    { value:'20170705'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It’s not usually used directly -
@@ -20,20 +20,6 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
 
     constructor (config) {
         super(config)
-    }
-
-
-    getBuffers(config) {
-
-        //// Validate config and get empty buffers.
-        const buffers = super.getBuffers(config)
-
-        //// The MathSeqin class just keeps the base Seqin class’s silence.
-        buffers.map( buffer => {
-            buffer.id = 'ma'
-        })
-
-        return buffers
     }
 
 }

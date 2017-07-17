@@ -7,11 +7,16 @@ global.TestMeta = {
 //// This has been copy-pasted from the main script:
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.3'     }
+  , VERSION: { value:'0.0.4'     }
   , SPEC:    { value:'20170705'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It’s not usually used directly -
 it just generates silent buffers.` }
+}
+
+//// Polyfill `performance.now()`.
+global.performance = {
+    now: () => { const hr = process.hrtime(); return hr[0] * 1e4 + hr[1] / 1e6 }
 }
 
 //// Load Seqin, the base class.

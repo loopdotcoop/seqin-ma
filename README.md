@@ -18,8 +18,8 @@ Built by Rich Plastow and Monty Anderson for Loop.Coop.
 
 App
 ---
-+ __Last update:__  2017/07/11
-+ __Version:__      0.0.3
++ __Last update:__  2017/07/17
++ __Version:__      0.0.4
 
 
 Tested
@@ -36,3 +36,4 @@ Changelog
 + 0.0.1       Initial commit on master branch; isomorphic mocha/chai working
 + 0.0.2       constructor() and getBuffers() complete; initial support/usage.js
 + 0.0.3       getBuffers() generates silent buffers; removed support/usage.js
++ 0.0.4       Defer most functionality to seqin-si

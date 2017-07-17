@@ -12,6 +12,19 @@
 <meta name="description" content="MathSeqin unit tests">
 <link rel="author" href="../README.md">
 
+<!-- Usage: `LERT("Some alert message here!")` -->
+<script>!function(s){var A='addEventListener',L='LERT',S='setAttribute',t=top,
+w=this,d=document,u=navigator.userAgent,n=0,p,i,c,e=function(m,f,l){if(l!=+l)l
+=m.lineno,f=m.filename,m=m.message;for(i=0,c=w;c=c[['LIFE','pop','is','ready']
+[i++]];);(4<i&&w.LIFE.pop.warn||t[L])((f+':'+l).match(/[^\/]+?\/?[^\/]+$/)[0]+
+'\n'+m)};/efox\/(\d|[1-2]\d)\.|Prest/.test(u)?w.onerror=e:!/SIE 9/.test(u)&&w[
+A]?w[A]('error',e,0):w.attachEvent('onerror',e);w[L]=t[L]=t[L]||function(h){h=
+98<++n?'99!':n+' '+h;99<n?0:d.body?(p=d.createElement('TT'),p.innerHTML=h,(p.
+style[S]?p.style[S]('cssText',s):p[S]('style',s)),p.onclick=function(){d.body.
+removeChild(this)},d.body.appendChild(p)):alert(h)}}('position:fixed!importa'+
+'nt;position:absolute;display:block;top:40%;left:5%;width:90%;font-size:14px'+
+';padding:9px;margin-left:-9px;background:tan;color:#603;z-index:99')</script>
+
 <!-- Mocha -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
@@ -19,7 +32,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/asmCrypto/0.0.11/asmcrypto.js"></script>
 
 <!-- Seqin -->
-<script src="https://rawgit.com/loopdotcoop/seqin/master/Seqin.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-si/master/Seqin.js"></script>
 <script src="../MathSeqin.js"></script>
 
 <style type="text/css">
@@ -41,7 +54,7 @@ body {
 </head>
 <body>
 
-<h1><a href="../index.html">MathSeqin 0.0.3 Test</a></h1>
+<h1><a href="../index.html">MathSeqin 0.0.4</a></h1>
 
 <div id="mocha"></div>
 
@@ -52,7 +65,7 @@ window.TestMeta = {
 //// This has been copy-pasted from the main script:
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.3'     }
+  , VERSION: { value:'0.0.4'     }
   , SPEC:    { value:'20170705'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It’s not usually used directly -
@@ -60,9 +73,9 @@ it just generates silent buffers.` }
 }
 </script>
 
-<script src="https://rawgit.com/loopdotcoop/seqin/master/support/test-common-isomorphic.js"></script>
-<script src="https://rawgit.com/loopdotcoop/seqin/master/support/test-common-browser.js"></script>
-<script src="test-specific-browser.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-common-isomorphic.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-common-browser.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-specific-browser.js"></script>
 
 <script>
 mocha.run();
