@@ -19,7 +19,7 @@ Built by Rich Plastow and Monty Anderson for Loop.Coop.
 App
 ---
 + __Last update:__  2017/07/17
-+ __Version:__      0.0.10
++ __Version:__      0.0.11
 
 
 Tested
@@ -43,3 +43,4 @@ Changelog
 + 0.0.8       ‘ready’ property and getBuffers() return Promises
 + 0.0.9       Rename getBuffers() to perform()
 + 0.0.10      perform() defers validation to private methods
++ 0.0.11      Move Mocha and Chai from local node_modules to global

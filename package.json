@@ -1,17 +1,15 @@
 {
   "name": "seqin-ma",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The base class for all mathematical Seqins",
   "main": "MathSeqin.js",
   "directories": {
     "example": "support"
   },
   "dependencies": {
-    "seqin-si": "^0.0.10"
+    "seqin-si": "^0.0.11"
   },
   "devDependencies": {
-    "chai": "^4.0.2",
-    "mocha": "^3.4.2"
   },
   "scripts": {
     "test": "mocha support/test.js"
@@ -29,7 +27,10 @@
     "math",
     "maths"
   ],
-  "author": "Rich Plastow<rich@loop.coop>, Monty Anderson",
+  "author": "Rich Plastow <rich@loop.coop> (http://loop.coop/)",
+  "contributors": [
+    "Monty Anderson <monty.linux@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/loopdotcoop/seqin-ma/issues"
