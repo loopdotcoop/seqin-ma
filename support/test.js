@@ -9,7 +9,7 @@ global.TestMeta = {
 //// This has been copy-pasted from the main script:
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.5'     }
+  , VERSION: { value:'0.0.6'     }
   , SPEC:    { value:'20170705'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It’s not usually used directly -
