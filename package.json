@@ -1,6 +1,6 @@
 {
   "name": "seqin-ma",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The base class for all mathematical Seqins",
   "main": "MathSeqin.js",
   "directories": {

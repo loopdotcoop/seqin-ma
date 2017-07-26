@@ -18,8 +18,8 @@ Built by Rich Plastow and Monty Anderson for Loop.Coop.
 
 App
 ---
-+ __Last update:__  2017/07/19
-+ __Version:__      0.0.6
++ __Last update:__  2017/07/26
++ __Version:__      0.0.7
 
 
 Tested
@@ -39,3 +39,4 @@ Changelog
 + 0.0.4       Defer most functionality to seqin-si
 + 0.0.5       Move Mocha and Chai from local node_modules to global
 + 0.0.6       Better use of Promises
+- 0.0.7       Move buildBuffers() etc from Rich1MathSeqin; fully Promise-based
