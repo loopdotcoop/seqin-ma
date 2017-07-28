@@ -1,13 +1,13 @@
 {
   "name": "seqin-ma",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "The base class for all mathematical Seqins",
-  "main": "MathSeqin.js",
+  "main": "seqin-ma.js",
   "directories": {
     "example": "support"
   },
   "dependencies": {
-    "seqin-si": "^0.0.13"
+    "seqin-base": "^1.0.1"
   },
   "devDependencies": {
   },

@@ -3,65 +3,55 @@
 const META = {
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.7'     }
-  , SPEC:    { value:'20170705'  }
+  , VERSION: { value:'1.0.0'     }
+  , SPEC:    { value:'20170728'  }
   , HELP:    { value:
-`The base class for all mathematical Seqins. It’s not usually used directly -
-it just generates silent buffers.` }
+`The base class for all mathematical Seqins. It generates sine waves with ADSR envelopes.` }
 }
+
+
+//// METHODS
+//// -------
+
+//// PERFORM
+//// _buildBuffers()
+
+//// SINGLE WAVEFORM
+//// _getSingleWaveformBuffer()
+//// _getSingleWaveformId()
+//// _renderSingleWaveformBuffer()
+
+//// OSCILLATION
+//// _getOscillationBuffer()
+//// _getOscillationId()
+//// _renderOscillationBuffer()
+
+//// GAIN ENVELOPE
+//// _getGainEnvelopeBuffer()
+//// _getGainEnvelopeId()
+//// _renderGainEnvelopeBuffer()
+
+//// ENVELOPE NODES
+//// _eventsToEnvelopeNodes
+//// _getReducedEnvelopeNodes
+
+//// VALID CONSTRUCTOR CONFIG
+//// validFamilyConstructor()
+
+
+
 
 //// Make available on the window (browser) or global (Node.js)
 const SEQIN = ROOT.SEQIN
 if (! SEQIN)       throw new Error('The SEQIN global object does not exist')
 if (! SEQIN.Seqin) throw new Error('The base SEQIN.Seqin class does not exist')
 
-
 SEQIN.MathSeqin = class extends SEQIN.Seqin {
 
-    constructor (config) {
-        super(config)
-    }
-
-
-    //// Expect ADSR settings in the constructor()’s configuration.
-    get validConstructor () {
-        return super.validConstructor.concat(
-            { name:'attackDuration' , type:'number', min:8, max:96000 , mod:1, default:300 }
-          , { name:'decayDuration'  , type:'number', min:8, max:96000 , mod:1, default:900 }
-          , { name:'releaseDuration', type:'number', min:8, max:960000, mod:1, default:1000 }
-        )
-    }
-
-
-    //// PRIVATE MEMBERS
-    //// ---------------
-
-    //// CONTROLLER
-    //// _buildBuffers()
-
-    //// SINGLE WAVEFORM
-    //// _getSingleWaveformBuffer()
-    //// _getSingleWaveformId()
-    //// _renderSingleWaveformBuffer()
-
-    //// OSCILLATION
-    //// _getOscillationBuffer()
-    //// _getOscillationId()
-    //// _renderOscillationBuffer()
-
-    //// GAIN ENVELOPE
-    //// _getGainEnvelopeBuffer()
-    //// _getGainEnvelopeId()
-    //// _renderGainEnvelopeBuffer()
-
-    //// ENVELOPE NODES
-    //// _eventsToEnvelopeNodes
-    //// _getReducedEnvelopeNodes
 
 
 
-
-    //// CONTROLLER
+    //// PERFORM
 
     //// Coordinates the process of creating an array of audio buffers. Returns
     //// a Promise which resolves to an array of output-buffers. It also may add
@@ -75,6 +65,10 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
             //// Translate config.events to an array of ADSR envelope nodes.
             const envelopeNodes = this._eventsToEnvelopeNodes(config)
             outputBuffers.envelopeNodes = envelopeNodes // helpful for Seqinalysis
+
+            //// Allow the special case where there are no events.
+            if (0 === config.events.length)
+                return Promise.resolve(outputBuffers)
 
             //// Return the filled buffers.
             return new Promise( (resolve, reject) => {
@@ -392,6 +386,9 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
     //// Called by: perform() > _buildBuffers()
     _eventsToEnvelopeNodes (config) {
 
+        //// Allow the special case where there are no events.
+        if (0 === config.events.length) return []
+
         //// Sort the events in time-order.
         config.events.sort( (a, b) => a.at - b.at )
 
@@ -488,6 +485,71 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
         return [ before ].concat(inner).concat(after)
            .map( n => ({ at: n.at -= first, level:n.level }) )
     }
+
+
+
+
+    //// VALID FAMILY CONFIG
+
+    //// The `config` argument passed to the `constructor()` should specify
+    //// ADSR timings for attack, decay and release.
+    //// Overrides Seqin:validFamilyConstructor()
+    //// Called by: constructor()
+    //// Called by: constructor() > _validateFamilyConstructor()
+    //// Can also be used to auto-generate unit tests and auto-build GUIs.
+    get validFamilyConstructor () { return [
+        {
+            title:   'Attack Duration'
+          , name:    'attackDuration'
+          , alias:   'ad'
+
+          , tooltip: 'How quickly the sound starts'
+          , devtip:  'The number of sample-frames between the ‘key-down’ event and the peak of the ADSR envelope'
+          , form:    'range'
+          , power:   8 // the range-slider should be exponential @TODO adjust power
+          , suffix:  'Sample Frames(s)'
+
+          , type:    'number'
+          , min:     1
+          , max:     96000
+          , step:    1
+          , default: 300
+        }
+      , {
+            title:   'Decay Duration'
+          , name:    'decayDuration'
+          , alias:   'dd'
+
+          , tooltip: 'How quickly the sound settles to its ‘sustain’ level'
+          , devtip:  'The number of sample-frames between the ADSR envelope’s peak and the start of the ‘sustain’'
+          , form:    'range'
+          , power:   8 // the range-slider should be exponential @TODO adjust power
+          , suffix:  'Sample Frames(s)'
+
+          , type:    'number'
+          , min:     1
+          , max:     96000
+          , step:    1
+          , default: 900
+        }
+      , {
+            title:   'Release Duration'
+          , name:    'releaseDuration'
+          , alias:   'rd'
+
+          , tooltip: 'How slowly the sound fades away'
+          , devtip:  'The number of sample-frames between the end of the ‘sustain’, and the sound fading to silence'
+          , form:    'range'
+          , power:   8 // the range-slider should be exponential @TODO adjust power
+          , suffix:  'Sample Frames(s)'
+
+          , type:    'number'
+          , min:     1
+          , max:     960000
+          , step:    1
+          , default: 1000
+        }
+    ]}
 
 
 }

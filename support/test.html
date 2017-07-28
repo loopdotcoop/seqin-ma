@@ -32,8 +32,8 @@ removeChild(this)},d.body.appendChild(p)):alert(h)}}('position:fixed!importa'+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/asmCrypto/0.0.11/asmcrypto.js"></script>
 
 <!-- Seqin -->
-<script src="https://rawgit.com/loopdotcoop/seqin-si/master/Seqin.js"></script>
-<script src="../MathSeqin.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-base/master/seqin-base.js"></script>
+<script src="../seqin-ma.js"></script>
 
 <style type="text/css">
 body {
@@ -54,28 +54,27 @@ body {
 </head>
 <body>
 
-<h1><a href="../index.html">MathSeqin 0.0.7</a></h1>
+<h1><a href="../index.html">MathSeqin 1.0.0</a></h1>
 
 <div id="mocha"></div>
 
 <script>
 mocha.setup('bdd')
-window.TestClassName = 'MathSeqin'
+//// Define `TestMeta` - this has been copied from the main script.
 window.TestMeta = {
-//// This has been copy-pasted from the main script:
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'0.0.7'     }
-  , SPEC:    { value:'20170705'  }
+  , VERSION: { value:'1.0.0'     }
+  , SPEC:    { value:'20170728'  }
   , HELP:    { value:
-`The base class for all mathematical Seqins. It’s not usually used directly -
-it just generates silent buffers.` }
+`The base class for all mathematical Seqins. It generates sine waves with ADSR envelopes.` }
 }
 </script>
 
-<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-common-isomorphic.js"></script>
-<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-common-browser.js"></script>
-<script src="https://rawgit.com/loopdotcoop/seqin-si/master/support/test-specific-browser.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-base/master/support/test-base-isomorphic.js"></script>
+<script src="test-family-isomorphic.js"></script>
+<script src="https://rawgit.com/loopdotcoop/seqin-base/master/support/test-base-browser.js"></script>
+<script src="test-specific-browser.js"></script>
 
 <script>
 mocha.run();
