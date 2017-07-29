@@ -41,12 +41,14 @@ const META = {
 
 
 
-//// Make available on the window (browser) or global (Node.js)
-const SEQIN = ROOT.SEQIN
+//// Check that the environment is set up as expected.
+const SEQIN = ROOT.SEQIN // available on the window (browser) or global (Node.js)
 if (! SEQIN)       throw new Error('The SEQIN global object does not exist')
 if (! SEQIN.Seqin) throw new Error('The base SEQIN.Seqin class does not exist')
 
-SEQIN.MathSeqin = class extends SEQIN.Seqin {
+
+//// Define the main class.
+SEQIN.MathSeqin = class MathSeqin extends SEQIN.Seqin {
 
 
 
@@ -136,16 +138,26 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
 
 
     //// Returns a single-waveform ID, based on config passed to `perform()`,
-    //// and also config passed to `constructor()`.
+    //// and also config passed to `constructor()`. Sub-classes can override
+    //// this method, but it’s usually easier just to append to its result, eg:
+    //// _getSingleWaveformId (config) { // in the ZippyMathSeqin sub-class
+    ////     return super._getSingleWaveformId(config) + '_z' + config.zippiness
+    //// }
     //// Called by: perform() > _buildBuffers() > _getSingleWaveformBuffer()
-    _getSingleWaveformId (config) {
-        const samplesPerCycle = this.samplesPerBuffer / config.cyclesPerBuffer
+    //// Called by: perform() > _buildBuffers() > _getOscillationBuffer() > _getOscillationId()
+    //// Called by: perform() > _buildBuffers() > _getGainEnvelopeBuffer() > _getGainEnvelopeId()
+    _getSingleWaveformId (config, bufferType='SW') { // 'SW' for Single Waveform
+        const wavelength = this.samplesPerBuffer / config.cyclesPerBuffer
+        const vbc = this.validBaseConstructor
         return [
             this.constructor.ID   // universally unique ID for the current class
-          , 'SW'                  // denotes a single-waveform cycle
-          , 'r'+this.sampleRate   // sample-frames per second
-          , 'c'+this.channelCount // number of channels
-          , 'w'+samplesPerCycle   // wavelength of the waveform-cycle in sample-frames
+          , bufferType
+          , vbc.find(v=>'sampleRate'===v.name).alias // 'sr'
+              + this.sampleRate   // sample-frames per second
+          , vbc.find(v=>'channelCount'===v.name).alias // 'cc'
+              + this.channelCount // number of channels
+          , 'wl'
+              + wavelength        // samples-per-cycle in sample-frames
         ].join('_')
     }
 
@@ -155,16 +167,16 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
     //// it if you don’t want a sine wave.
     //// Called by: perform() > _buildBuffers() > _getSingleWaveformBuffer()
     _renderSingleWaveformBuffer (config) {
-        const samplesPerCycle = this.samplesPerBuffer / config.cyclesPerBuffer
-        const f = Math.PI * 2 / samplesPerCycle // frequency
+        const wavelength = this.samplesPerBuffer / config.cyclesPerBuffer
+        const f = Math.PI * 2 / wavelength // frequency
         const singleWaveformBuffer = this.audioContext.createBuffer(
                 this.channelCount // numOfChannels
-              , samplesPerCycle   // length
+              , wavelength        // length
               , this.sampleRate   // sampleRate
             )
         for (let channel=0; channel<this.channelCount; channel++) {
             const singleWaveformChannel = singleWaveformBuffer.getChannelData(channel)
-            for (let i=0; i<samplesPerCycle; i++)
+            for (let i=0; i<wavelength; i++)
                 singleWaveformChannel[i] = Math.sin(i * f)
         }
         return Promise.resolve(singleWaveformBuffer)
@@ -203,25 +215,20 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
     //// Returns an oscillation ID, based on config passed to `perform()`,
     //// and also config passed to `constructor()`.
     //// Called by: perform() > _buildBuffers() > _getOscillationBuffer()
-    _getOscillationId (config) {
-        const samplesPerCycle = this.samplesPerBuffer / config.cyclesPerBuffer
-        return [
-            this.constructor.ID       // universally unique ID for the current class
-          , 'OS'                      // denotes an oscillation buffer
-          , 'b'+this.samplesPerBuffer // number of sample-frames in each buffer
-          , 'r'+this.sampleRate       // sample-frames per second
-          , 'c'+this.channelCount     // number of channels
-          , 'w'+samplesPerCycle       // wavelength of the waveform-cycles in sample-frames
-        ].join('_')
+    _getOscillationId (config, bufferType='OS') { // 'OS' for Oscillation Buffer
+        const vbc = this.validBaseConstructor
+        return this._getSingleWaveformId(config, bufferType)
+          + '_'
+          + vbc.find(v=>'samplesPerBuffer'===v.name).alias // 'sb'
+          + this.samplesPerBuffer // number of sample-frames in a buffer
     }
-
 
 
     //// Returns a new oscillation buffer, filled with repeated single-waveform
     //// buffers.
     //// Called by: perform() > _buildBuffers() > _getOscillationBuffer()
     _renderOscillationBuffer (config, singleWaveformBuffer) {
-        const samplesPerCycle = this.samplesPerBuffer / config.cyclesPerBuffer
+        const wavelength = this.samplesPerBuffer / config.cyclesPerBuffer
         const oscillationBuffer
           = this.audioContext.createBuffer(
                 this.channelCount     // numOfChannels
@@ -232,7 +239,7 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
             const singleWaveformChannel = singleWaveformBuffer.getChannelData(channel)
             const oscillationChannel = oscillationBuffer.getChannelData(channel)
             for (let i=0; i<this.samplesPerBuffer; i++) {
-                oscillationChannel[i] = singleWaveformChannel[i % samplesPerCycle]
+                oscillationChannel[i] = singleWaveformChannel[i % wavelength]
             }//@TODO find a faster technique for duplicating audio
         }
         return Promise.resolve(oscillationBuffer)
@@ -278,17 +285,9 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
     //// and also config passed to `constructor()`.
     //// Called by: perform() > _buildBuffers() > _getGainEnvelopeBuffer()
     _getGainEnvelopeId (config, rens) {
-        const samplesPerCycle = this.samplesPerBuffer / config.cyclesPerBuffer
 
         //// The ID’s start does not depend on the buffer’s ADSR envelope.
-        let gainEnvelopeId = [
-            this.constructor.ID       // universally unique ID for the current class
-          , 'GE'                      // denotes a buffer with a gain-envelope applied
-          , 'b'+this.samplesPerBuffer // number of sample-frames in each buffer
-          , 'r'+this.sampleRate       // sample-frames per second
-          , 'c'+this.channelCount     // number of channels
-          , 'w'+samplesPerCycle+'_'   // wavelength of the waveform-cycle in sample-frames
-        ].join('_')
+        let gainEnvelopeId = this._getOscillationId(config, 'GE') + '_'
 
         //// Deal with a simple horizontal level.
         if (2 === rens.length && rens[0].level === rens[1].level)
@@ -555,7 +554,7 @@ SEQIN.MathSeqin = class extends SEQIN.Seqin {
 }
 
 
-//// Add static constants to the MathSeqin class.
+//// Add static constants to the main class.
 Object.defineProperties(SEQIN.MathSeqin, META)
 
 

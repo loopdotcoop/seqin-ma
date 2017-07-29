@@ -10,8 +10,9 @@ const
   , expect    = chai.expect
   , eq        = a.strictEqual
   , ok        = a.isOk
+  , fail      = a.fail
 
-    //// To test a `Seqin` subclass called `MyGreatSeqin`, you should have set:
+    //// To test a `Seqin` sub-class called `MyGreatSeqin`, you should have set:
     //// window.TestMeta = { // replace `window` with `global` for Node.js
     ////     NAME:    { value:'MyGreatSeqin' }
     ////   , ID:      { value:'mygt'       }

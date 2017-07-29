@@ -29,7 +29,7 @@ Tested
 + __Windows 10:__           Edge 14+
 + __Windows 7:__            Chrome 49+, Opera 36+
 + __Windows XP:__           Firefox 45+
-+ __OS X El Sierra:__       Safari 10.1+
++ __OS X Sierra:__          Safari 10.1+
 
 
 Changelog
@@ -42,3 +42,4 @@ Changelog
 + 0.0.6       Better use of Promises
 - 0.0.7       Move buildBuffers() etc from Rich1MathSeqin; fully Promise-based
 + 1.0.0       Upgrade to spec 20170728
++ 1.0.1       Buffer-ID methods `_get...Id()` work better in sub-classes

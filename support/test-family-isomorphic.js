@@ -30,8 +30,8 @@ const
 
 
 describe(`Test family isomorphic '${TestClassName}'`, () => {
-
-
+    it(`@TODO Add the family isomorphic tests in here`, () => {
+    })
 })
 
 }( 'object' === typeof window ? window : global )
