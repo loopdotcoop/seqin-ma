@@ -3,7 +3,7 @@
 const META = {
     NAME:    { value:'MathSeqin' }
   , ID:      { value:'ma'        }
-  , VERSION: { value:'1.0.0'     }
+  , VERSION: { value:'1.0.1'     }
   , SPEC:    { value:'20170728'  }
   , HELP:    { value:
 `The base class for all mathematical Seqins. It generates sine waves with ADSR envelopes.` }
